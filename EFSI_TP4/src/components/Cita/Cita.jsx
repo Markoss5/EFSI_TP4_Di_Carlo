@@ -1,7 +1,6 @@
 import "./Cita.css";
 import { useState } from "react";
 function Cita({ cita }) {
-  const { mascota, dueño, fecha, hora, sintomas } = cita;
   return (
     <div className="cita">
       <p><strong>Mascota:</strong> {cita.mascota}</p>

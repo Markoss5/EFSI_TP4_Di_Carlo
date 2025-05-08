@@ -1,7 +1,7 @@
 import "./Formulario.css";
 import { useState } from "react";
 
-function Formulario() {
+function Formulario({setCitas}) {
   const [form, setForm] = useState({
     mascota: "",
     dueño: "",
@@ -10,6 +10,9 @@ function Formulario() {
     sintomas: "",
   })
 
+  const agregarCita = () => {
+    setCitas()
+  } // como hago para que se suba la cita y el objeto
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({
@@ -48,7 +51,7 @@ function Formulario() {
             value={form.sintomas}
             onChange={handleChange}
         />
-        <button type="submit">Agregar Cita</button>
+        <button type="submit" onClick={agergarCita}>Agregar Cita</button>
       </form>
     </div>
   );
