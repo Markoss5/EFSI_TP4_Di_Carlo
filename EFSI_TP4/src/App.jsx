@@ -4,15 +4,14 @@ import Listado from "./components/Listado/Listado";
 import "./App.css";
 
 function App() {
-  const [citas, setCitas] = useState([
+  const [citas, setCitas] = useState([]); 
 
-  ]);
 
   return (
     <div className="container">
       <h1>Administrador de pacientes</h1>
       <div className="contenido-principal">
-        <Formulario setcitas={setCitas}/>
+        <Formulario setCitas={setCitas} />
         <Listado citas={citas} />
       </div>
     </div>

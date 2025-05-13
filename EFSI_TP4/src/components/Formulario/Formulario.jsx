@@ -1,18 +1,39 @@
 import "./Formulario.css";
 import { useState } from "react";
 
-function Formulario({setCitas}) {
+function Formulario({ setCitas }) {
   const [form, setForm] = useState({
     mascota: "",
     dueño: "",
     fecha: "",
     hora: "",
     sintomas: "",
-  })
+  });
 
-  const agregarCita = () => {
-    setCitas()
-  } // como hago para que se suba la cita y el objeto
+  
+  const agregarCita = (e) => {
+    e.preventDefault(); 
+
+    
+    const nuevaCita = {
+      id: Date.now(), 
+      ...form, 
+    };
+
+    
+    setCitas((prevCitas) => [...prevCitas, nuevaCita]);
+
+   
+    setForm({
+      mascota: "",
+      dueño: "",
+      fecha: "",
+      hora: "",
+      sintomas: "",
+    });
+  };
+
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({
@@ -20,38 +41,42 @@ function Formulario({setCitas}) {
       [name]: value,
     });
   };
-  
-    return (
+
+  return (
     <div className="formulario">
       <h2>Crear cita</h2>
-      <form>
+      <form onSubmit={agregarCita}> 
         <input
-            name="mascota"
-            value={form.mascota}
-            onChange={handleChange}
-            placeholder="nombredeMascota"
-        />
-        <input placeholder="Nombre del Dueño" 
-            name="dueño"
-            value={form.dueño}
-            onChange={handleChange}
-        />
-        <input type="date"
-            name="fecha"
-            value={form.fecha}
-            onChange={handleChange}
-        />
-        <input type="time" 
-            name="hora"
-            value={form.hora}
-            onChange={handleChange}
-        />
-        <textarea placeholder="Síntomas"
-            name="sintomas"        
-            value={form.sintomas}
-            onChange={handleChange}
-        />
-        <button type="submit" onClick={agergarCita}>Agregar Cita</button>
+          name="mascota"
+          value={form.mascota}
+          onChange={handleChange}
+          placeholder="Nombre de la mascota"
+        required/>
+        <input
+          placeholder="Nombre del dueño"
+          name="dueño"
+          value={form.dueño}
+          onChange={handleChange}
+        required/>
+        <input
+          type="date"
+          name="fecha"
+          value={form.fecha}
+          onChange={handleChange}
+        required/>
+        <input
+          type="time"
+          name="hora"
+          value={form.hora}
+          onChange={handleChange}
+        required/>
+        <textarea
+          placeholder="Síntomas"
+          name="sintomas"
+          value={form.sintomas}
+          onChange={handleChange}
+        required/>
+        <button type="submit">Agregar Cita</button>
       </form>
     </div>
   );
