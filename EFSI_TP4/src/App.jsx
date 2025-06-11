@@ -1,29 +1,45 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Formulario from "./components/Formulario/Formulario";
-import Listado from "./components/Listado/Listado";
-import "./App.css";
-
-const obtenerCitasLS = () => {
-  const citasGuardadas = localStorage.getItem("citas");
-  return citasGuardadas ? JSON.parse(citasGuardadas) : [];
-};
+import Navbar from "./components/Navbar/Navbar";
+import Home from "./views/Home";
+import Formulario from "./views/Formulario";
+import Listado from "./views/Listado";
+import "./index.css";
 
 function App() {
-  const [citas, setCitas] = useState(obtenerCitasLS);
+  const [citas, setCitas] = useState([]);
 
+  // Cargar desde localStorage
+  useEffect(() => {
+    const citasGuardadas = localStorage.getItem("citas");
+    if (citasGuardadas) {
+      setCitas(JSON.parse(citasGuardadas));
+    }
+  }, []);
+
+  // Guardar en localStorage
   useEffect(() => {
     localStorage.setItem("citas", JSON.stringify(citas));
   }, [citas]);
 
+  const agregarCita = (cita) => {
+    setCitas([...citas, cita]);
+  };
+
+  const eliminarCita = (id) => {
+    const nuevasCitas = citas.filter(cita => cita.id !== id);
+    setCitas(nuevasCitas);
+  };
+
   return (
-    <div className="container">
-            <h1>Administrador de pacientes</h1>     {" "}
-      <div className="contenido-principal">
-                <Formulario setCitas={setCitas} />
-                <Listado citas={citas} />     {" "}
-      </div>
-         {" "}
-    </div>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/formulario" element={<Formulario agregarCita={agregarCita} />} />
+        <Route path="/listado" element={<Listado citas={citas} eliminarCita={eliminarCita} />} />
+      </Routes>
+    </Router>
   );
 }
 
